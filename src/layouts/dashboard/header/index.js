@@ -5,14 +5,13 @@ import { Box, Stack, AppBar, Toolbar, IconButton } from '@mui/material';
 // utils
 import { bgBlur } from '../../../utils/cssStyles';
 // components
-// import Iconify from '../../../components/iconify';
 //
 import Searchbar from './Searchbar';
 import AccountPopover from './AccountPopover';
 import LanguagePopover from './LanguagePopover';
+import Iconify from '../../../components/iconify/Iconify';
 // import NotificationsPopover from './NotificationsPopover';
 
-// ----------------------------------------------------------------------
 
 const NAV_WIDTH = 280;
 
@@ -54,7 +53,7 @@ export default function Header({ onOpenNav }) {
             display: { lg: 'none' },
           }}
         >
-          {/* <Iconify icon="eva:menu-2-fill" /> */}
+          <Iconify icon="eva:menu-2-fill" />
         </IconButton>
 
         <Searchbar />

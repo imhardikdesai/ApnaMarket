@@ -1,4 +1,3 @@
-// import { Helmet } from 'react-helmet-async';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 import { useState } from 'react';
@@ -148,17 +147,6 @@ export default function UserPage() {
 
   return (
     <>
-      {/* <Helmet>
-        <title> User | Minimal UI </title>
-      </Helmet> */}    
-
-
-
-
-
-
-      
-
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>

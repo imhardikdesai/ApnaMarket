@@ -1,4 +1,3 @@
-import { Helmet } from 'react-helmet-async';
 import { Link as RouterLink } from 'react-router-dom';
 // @mui
 import { styled } from '@mui/material/styles';
@@ -21,10 +20,6 @@ const StyledContent = styled('div')(({ theme }) => ({
 export default function Page404() {
   return (
     <>
-      <Helmet>
-        <title> 404 Page Not Found | Minimal UI </title>
-      </Helmet>
-
       <Container>
         <StyledContent sx={{ textAlign: 'center', alignItems: 'center' }}>
           <Typography variant="h3" paragraph>

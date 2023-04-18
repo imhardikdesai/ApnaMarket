@@ -4,6 +4,7 @@ import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton, Popover } from '@mui/material';
 // mocks_
 import account from '../../../_mock/account';
+import { NavLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -11,14 +12,17 @@ const MENU_OPTIONS = [
   {
     label: 'Home',
     icon: 'eva:home-fill',
+    path: '/dashboard'
   },
   {
     label: 'Profile',
     icon: 'eva:person-fill',
+    path: '/dashboard/profile'
   },
   {
     label: 'Settings',
     icon: 'eva:settings-2-fill',
+    path: '/dashboard/setting'
   },
 ];
 
@@ -89,17 +93,20 @@ export default function AccountPopover() {
 
         <Stack sx={{ p: 1 }}>
           {MENU_OPTIONS.map((option) => (
-            <MenuItem key={option.label} onClick={handleClose}>
-              {option.label}
-            </MenuItem>
+            <NavLink to={option.path}>
+              <MenuItem key={option.label} onClick={handleClose}>
+                {option.label}
+              </MenuItem>
+            </NavLink>
           ))}
         </Stack>
 
         <Divider sx={{ borderStyle: 'dashed' }} />
-
-        <MenuItem onClick={handleClose} sx={{ m: 1 }}>
-          Logout
-        </MenuItem>
+        <NavLink to='/login'>
+          <MenuItem onClick={handleClose} sx={{ m: 1 }}>
+            Logout
+          </MenuItem>
+        </NavLink>
       </Popover>
     </>
   );
