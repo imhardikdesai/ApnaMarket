@@ -7,6 +7,16 @@ import LoginPage from './../pages/LoginPage';
 import Page404 from './../pages/Page404';
 import ProductsPage from './../pages/ProductsPage';
 import DashboardAppPage from '../pages/DashboardAppPage';
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
+
+
+
+const PrivateRoute = ({ element }) => {
+    const { currentUser } = useContext(AuthContext)
+    const loggedIn = currentUser
+    return loggedIn ? element : <Navigate to="/login" />;
+};
 
 
 export default function Router() {
@@ -20,11 +30,11 @@ export default function Router() {
             element: <DashboardLayout />,
             children: [
                 { element: <Navigate to="/dashboard/app" />, index: true },
-                { path: 'app', element: <DashboardAppPage /> },
-                { path: 'user', element: <UserPage /> },
-                { path: 'products', element: <ProductsPage /> },
-                { path: 'profile', element: <Page404 /> },
-                { path: 'setting', element: <Page404 /> },
+                { path: 'app', element: <PrivateRoute element={<DashboardAppPage />} /> },
+                { path: 'user', element: <PrivateRoute element={<UserPage />} /> },
+                { path: 'products', element: <PrivateRoute element={<ProductsPage />} /> },
+                { path: 'profile', element: <PrivateRoute element={<Page404 />} /> },
+                { path: 'setting', element: <PrivateRoute element={<Page404 />} /> },
             ],
         },
         {

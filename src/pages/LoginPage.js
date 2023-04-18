@@ -1,15 +1,16 @@
 // @mui
 import { styled } from '@mui/material/styles';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
+import { Container, Typography, Stack, Button } from '@mui/material';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
 import Logo from '../components/logo';
-import Iconify from '../components/iconify';
 // sections
-import { LoginForm } from '../sections/auth/login';
-
-// ----------------------------------------------------------------------
+import { FcGoogle } from 'react-icons/fc'
+import { handleGoogleSignIn } from '../utils/auth';
+import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -41,10 +42,19 @@ const StyledContent = styled('div')(({ theme }) => ({
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
+  const navigate = useNavigate();
+  const { setUserDetails, currentUser } = useContext(AuthContext);
 
+  const handleSignIn = () => {
+    handleGoogleSignIn(navigate, setUserDetails)
+  }
+  useEffect(() => {
+    if (currentUser) {
+      navigate('/dashboard')
+    }
+  }, [currentUser, navigate])
   return (
     <>
-
       <StyledRoot>
         <Logo
           sx={{
@@ -66,35 +76,26 @@ export default function LoginPage() {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              Sign in to Apna Market
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
-              Don’t have an account? {''}
-              <Link variant="subtitle2">Get started</Link>
+              to become a part of Apna Market
             </Typography>
 
             <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
-              </Button>
-
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:facebook-fill" color="#1877F2" width={22} height={22} />
-              </Button>
-
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
+              <Button onClick={handleSignIn} fullWidth size="large" color="inherit" variant="outlined">
+                <FcGoogle size={30} /> <span className='ml-3'>Sign In with Google</span>
               </Button>
             </Stack>
 
-            <Divider sx={{ my: 3 }}>
+            {/* <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 OR
               </Typography>
-            </Divider>
+            </Divider> */}
 
-            <LoginForm />
+            {/* <LoginForm /> */}
           </StyledContent>
         </Container>
       </StyledRoot>

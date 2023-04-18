@@ -2,6 +2,8 @@
 // @mui
 // import { useTheme } from '@mui/material/styles';
 import { Grid, Container, Typography } from '@mui/material';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 // components
 // import Iconify from '../components/iconify';
 // sections
@@ -20,13 +22,13 @@ import { Grid, Container, Typography } from '@mui/material';
 
 export default function DashboardAppPage() {
   // const theme = useTheme();
-
+  const { userDetails } = useContext(AuthContext)
   return (
     <>
 
       <Container maxWidth="xl">
         <Typography variant="h4" sx={{ mb: 5 }}>
-          Hi, Welcome back
+          Hi, {userDetails ? userDetails.displayName : 'loading...'} Welcome back
         </Typography>
 
         <Grid container spacing={3}>
