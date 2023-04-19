@@ -7,17 +7,7 @@ import LoginPage from './../pages/LoginPage';
 import Page404 from './../pages/Page404';
 import ProductsPage from './../pages/ProductsPage';
 import DashboardAppPage from '../pages/DashboardAppPage';
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
-
-
-
-const PrivateRoute = ({ element }) => {
-    const { currentUser } = useContext(AuthContext)
-    const loggedIn = currentUser
-    return loggedIn ? element : <Navigate to="/login" />;
-};
-
+import PrivateRoute from "./PrivateRoute";
 
 export default function Router() {
     const routes = useRoutes([
@@ -30,11 +20,11 @@ export default function Router() {
             element: <DashboardLayout />,
             children: [
                 { element: <Navigate to="/dashboard/app" />, index: true },
-                { path: 'app', element: <PrivateRoute element={<DashboardAppPage />} /> },
-                { path: 'user', element: <PrivateRoute element={<UserPage />} /> },
-                { path: 'products', element: <PrivateRoute element={<ProductsPage />} /> },
-                { path: 'profile', element: <PrivateRoute element={<Page404 />} /> },
-                { path: 'setting', element: <PrivateRoute element={<Page404 />} /> },
+                { path: 'app', element: <PrivateRoute admin={false} element={<DashboardAppPage />} /> },
+                { path: 'user', element: <PrivateRoute admin={true} element={<UserPage />} /> },
+                { path: 'products', element: <PrivateRoute admin={false} element={<ProductsPage />} /> },
+                { path: 'profile', element: <PrivateRoute admin={false} element={<Page404 />} /> },
+                { path: 'setting', element: <PrivateRoute admin={false} element={<Page404 />} /> },
             ],
         },
         {
@@ -49,10 +39,10 @@ export default function Router() {
                 { path: '*', element: <Navigate to="/404" /> },
             ],
         },
-        // {
-        //     path: '*',
-        //     element: <Navigate to="/404" replace />,
-        // },
+        {
+            path: '*',
+            element: <Navigate to="/404" replace />,
+        },
     ]);
 
     return routes;

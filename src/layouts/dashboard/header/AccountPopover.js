@@ -8,6 +8,8 @@ import { NavLink } from 'react-router-dom';
 import { auth } from '../../../firebase/firebase-config';
 import { AuthContext } from '../../../context/AuthContext';
 import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
+import { updateAdminRole } from '../../../redux/actions/authActions';
 
 // ----------------------------------------------------------------------
 
@@ -34,7 +36,7 @@ const MENU_OPTIONS = [
 export default function AccountPopover() {
   const [open, setOpen] = useState(null);
   const { setCurrentUser } = useContext(AuthContext)
-
+  const dispatch = useDispatch()
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
@@ -47,6 +49,7 @@ export default function AccountPopover() {
     auth.signOut()
       .then(() => {
         toast.success('Successfully logged out !!!');
+        dispatch(updateAdminRole(false))
       })
       .catch((error) => {
         console.error(error);

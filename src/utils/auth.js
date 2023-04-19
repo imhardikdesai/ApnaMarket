@@ -7,30 +7,30 @@ import { toast } from "react-hot-toast";
 
 
 //Google Sign in Providers
-
 export const handleGoogleSignIn = async (navigate, dispatch) => {
     signInWithPopup(auth, new GoogleAuthProvider())
         .then(async (result) => {
-            if (result) {
-                if (result.user.metadata.createdAt === result.user.metadata.lastLoginAt) {
+            try {
+                if (result.user.metadata.creationTime === result.user.metadata.lastSignInTime) {
+                    navigate('/');
                     const userData = {
                         uid: result.user.uid,
                         displayName: result.user.displayName,
                         email: result.user.email,
-                        photoURL: result.user.photoURL
+                        photoURL: result.user.photoURL,
+                        isAdmin: result.user.email === 'hp676913@gmail.com' ? true : false
                     };
                     setDoc(doc(db, "users", result.user.uid), userData).then(() => {
                         toast.success('Login Successful');
                     })
                 } else {
-                    navigate('/');
+                    navigate('/')
                     toast.success(`Welcome Back ${result.user.displayName}`);
                     dispatch(updateChanges());
                 }
-            } else {
-                toast.error('Something Went Wrong');
+            } catch (err) {
+                console.log(err);
             }
-
         }).catch((error) => {
             const errorMessage = error.message;
             console.log(errorMessage);
