@@ -1,11 +1,12 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase/firebase-config";
+import { updateChanges } from "../redux/actions/authActions";
 
 
 
 //Google Sign in Providers
 
-export const handleGoogleSignIn = async (navigate, setUserDetails) => {
+export const handleGoogleSignIn = async (navigate, setUserDetails, dispatch) => {
     signInWithPopup(auth, provider)
         .then((result) => {
             // This gives you a Google Access Token. You can use it to access the Google API.
@@ -19,6 +20,8 @@ export const handleGoogleSignIn = async (navigate, setUserDetails) => {
             console.log(token)
 
             navigate('/')
+            dispatch(updateChanges())
+
 
         }).catch((error) => {
             // Handle Errors here.
