@@ -3,7 +3,9 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useState, useEffect, createContext } from 'react';
 // import { useSelector } from 'react-redux';
 import { auth } from '../firebase/firebase-config';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { GetCurrentUserDetails } from '../utils/utils';
+import { updateAdminRole } from '../redux/actions/authActions';
 
 export const AuthContext = createContext();
 
@@ -12,7 +14,7 @@ export function AuthProvider({ children }) {
     const [currentUser, setCurrentUser] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
     const [loading, setLoading] = useState(true);
-
+    const dispatch = useDispatch();
     useEffect(() => {
         onAuthStateChanged(auth, (user) => {
             setCurrentUser(user);
@@ -21,11 +23,14 @@ export function AuthProvider({ children }) {
             }
             if (user) {
                 setUserDetails(user.providerData[0]);
+                GetCurrentUserDetails(user).then((res) => {
+                    dispatch(updateAdminRole(res.isAdmin))
+                })
             }
 
             setLoading(false);
         });
-    }, [status]);
+    }, [status, dispatch]);
 
 
     return (
