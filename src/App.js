@@ -4,18 +4,23 @@ import ScrollToTop from "./components/scroll-to-top/ScrollToTop";
 import ThemeProvider from "./theme";
 import { AuthProvider } from "./context/AuthContext";
 import { Toaster } from "react-hot-toast";
+import { Provider } from "react-redux";
+import store from './redux/store'
+
 
 function App() {
   return (
-    <BrowserRouter>
-      <AuthProvider>
-        <ThemeProvider>
-          <ScrollToTop />
-          <Toaster />
-          <Router />
-        </ThemeProvider>
-      </AuthProvider>
-    </BrowserRouter>
+    <ThemeProvider >
+      <BrowserRouter>
+        <Provider store={store}>
+          <AuthProvider>
+            <ScrollToTop />
+            <Toaster />
+            <Router />
+          </AuthProvider>
+        </Provider>
+      </BrowserRouter>
+    </ThemeProvider>
   );
 }
 

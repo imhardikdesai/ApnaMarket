@@ -1,16 +1,18 @@
 // @mui
 import { styled } from '@mui/material/styles';
-import { Container, Typography, Stack, Button } from '@mui/material';
+import { Container, Typography, Stack, Button, Box } from '@mui/material';
 // hooks
 import useResponsive from '../hooks/useResponsive';
 // components
-import Logo from '../components/logo';
 // sections
 import { FcGoogle } from 'react-icons/fc'
 import { handleGoogleSignIn } from '../utils/auth';
 import { useNavigate } from 'react-router-dom';
 import { useContext, useEffect } from 'react';
 import { AuthContext } from '../context/AuthContext';
+import LottieBucket from '../components/common/LottieBucket';
+import loginLottie from '../animations/ecommerce-online-shop-blue.json'
+import { useDispatch } from 'react-redux';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -38,31 +40,26 @@ const StyledContent = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 
-// ----------------------------------------------------------------------
 
 export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
   const navigate = useNavigate();
-  const { setUserDetails, currentUser } = useContext(AuthContext);
+  const dispatch = useDispatch()
+  const { currentUser } = useContext(AuthContext);
 
   const handleSignIn = () => {
-    handleGoogleSignIn(navigate, setUserDetails)
+    handleGoogleSignIn(navigate, dispatch)
   }
   useEffect(() => {
     if (currentUser) {
       navigate('/dashboard')
     }
   }, [currentUser, navigate])
+
   return (
     <>
       <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
-          }}
-        />
+
 
         {mdUp && (
           <StyledSection>
@@ -73,22 +70,32 @@ export default function LoginPage() {
           </StyledSection>
         )}
 
+
         <Container maxWidth="sm">
           <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Sign in to Apna Market
-            </Typography>
+            <Box mb={10}>
+              {!mdUp && (
+                <LottieBucket path={loginLottie} />
+              )}
+            </Box>
 
-            <Typography variant="body2" sx={{ mb: 5 }}>
-              to become a part of Apna Market
-            </Typography>
+            <Box>
 
-            <Stack direction="row" spacing={2}>
-              <Button onClick={handleSignIn} fullWidth size="large" color="inherit" variant="outlined">
-                <FcGoogle size={30} /> <span className='ml-3'>Sign In with Google</span>
-              </Button>
-            </Stack>
+              <Typography variant="h4" gutterBottom>
+                Sign in to Apna Market
+              </Typography>
 
+              <Typography variant="body2" sx={{ mb: 5 }}>
+                to become a part of Apna Market
+              </Typography>
+
+              <Stack direction="row" spacing={2}>
+                <Button onClick={handleSignIn} fullWidth size="large" color="inherit" variant="outlined">
+                  <FcGoogle size={30} /> <span className='ml-3'>Sign In with Google</span>
+                </Button>
+              </Stack>
+
+            </Box>
             {/* <Divider sx={{ my: 3 }}>
               <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                 OR
@@ -97,6 +104,7 @@ export default function LoginPage() {
 
             {/* <LoginForm /> */}
           </StyledContent>
+
         </Container>
       </StyledRoot>
     </>
