@@ -45,10 +45,10 @@ export default function LoginPage() {
   const mdUp = useResponsive('up', 'md');
   const navigate = useNavigate();
   const dispatch = useDispatch()
-  const { setUserDetails, currentUser } = useContext(AuthContext);
+  const { currentUser } = useContext(AuthContext);
 
   const handleSignIn = () => {
-    handleGoogleSignIn(navigate, setUserDetails, dispatch)
+    handleGoogleSignIn(navigate, dispatch)
   }
   useEffect(() => {
     if (currentUser) {

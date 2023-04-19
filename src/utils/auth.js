@@ -1,36 +1,40 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, provider } from "../firebase/firebase-config";
+import { auth, db } from "../firebase/firebase-config";
 import { updateChanges } from "../redux/actions/authActions";
+import { doc, setDoc } from "firebase/firestore";
+import { toast } from "react-hot-toast";
 
 
 
 //Google Sign in Providers
 
-export const handleGoogleSignIn = async (navigate, setUserDetails, dispatch) => {
-    signInWithPopup(auth, provider)
-        .then((result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            setUserDetails()
-            // The signed-in user info.
-            // const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            // console.log('user is', user)
-            console.log(token)
-
-            navigate('/')
-            dispatch(updateChanges())
-
+export const handleGoogleSignIn = async (navigate, dispatch) => {
+    signInWithPopup(auth, new GoogleAuthProvider())
+        .then(async (result) => {
+            if (result) {
+                if (result.user.metadata.createdAt === result.user.metadata.lastLoginAt) {
+                    const userData = {
+                        uid: result.user.uid,
+                        displayName: result.user.displayName,
+                        email: result.user.email,
+                        photoURL: result.user.photoURL
+                    };
+                    setDoc(doc(db, "users", result.user.uid), userData).then(() => {
+                        toast.success('Login Successful');
+                    })
+                } else {
+                    navigate('/');
+                    toast.success(`Welcome Back ${result.user.displayName}`);
+                    dispatch(updateChanges());
+                }
+            } else {
+                toast.error('Something Went Wrong');
+            }
 
         }).catch((error) => {
-            // Handle Errors here.
-            // const errorCode = error.code;
             const errorMessage = error.message;
-            // The email of the user's account used.
-            // const email = error.customData.email;
-            // The AuthCredential type that was used.
-            // const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log(errorMessage)
+            console.log(errorMessage);
         });
-}
+};
+
+
