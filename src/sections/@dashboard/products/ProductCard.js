@@ -1,14 +1,14 @@
 import PropTypes from 'prop-types';
 // @mui
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Card, Link, Typography, Stack, Divider, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Label from '../../../components/label';
 import { ColorPreview } from '../../../components/color-utils';
-
-// ----------------------------------------------------------------------
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 
 const StyledProductImg = styled('img')({
   top: 0,
@@ -71,6 +71,21 @@ export default function ShopProductCard({ product }) {
             &nbsp;
             {fCurrency(price)}
           </Typography>
+        </Stack>
+        <Divider />
+        <Stack display='flex'>
+          <div className='flex justify-between my-2 items-center'>
+            <Button>
+              <AddCircleOutlineOutlinedIcon />
+            </Button>
+            <Typography variant="subtitle1">
+              0
+            </Typography>
+            <Button>
+              <RemoveCircleOutlineOutlinedIcon />
+            </Button>
+          </div>
+          <Button variant="outlined">Add to Cart</Button>
         </Stack>
       </Stack>
     </Card>
