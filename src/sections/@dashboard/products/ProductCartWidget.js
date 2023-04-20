@@ -4,6 +4,7 @@ import { Badge } from '@mui/material';
 // component
 import Iconify from '../../../components/iconify';
 import { useSelector } from 'react-redux';
+import { NavLink } from 'react-router-dom';
 
 // ----------------------------------------------------------------------
 
@@ -33,10 +34,12 @@ const StyledRoot = styled('div')(({ theme }) => ({
 export default function CartWidget() {
   const total = useSelector(state => state.cart.total)
   return (
-    <StyledRoot>
-      <Badge showZero badgeContent={total} color="error" max={99}>
-        <Iconify icon="eva:shopping-cart-fill" width={24} height={24} />
-      </Badge>
-    </StyledRoot>
+    <NavLink to='/dashboard/cart'>
+      <StyledRoot>
+        <Badge showZero badgeContent={total} color="error" max={99}>
+          <Iconify icon="eva:shopping-cart-fill" width={24} height={24} />
+        </Badge>
+      </StyledRoot>
+    </NavLink>
   );
 }

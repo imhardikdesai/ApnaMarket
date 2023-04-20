@@ -1,8 +1,9 @@
 import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from "../actionTypes"
 
 const initialState = {
+    totalPrice: 0,
     total: 0,
-    product: [],
+    product: []
 }
 
 const cartReducer = (state = initialState, action) => {
@@ -21,7 +22,8 @@ const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 total: state.total + 1,
-                product: currentData
+                product: currentData,
+                totalPrice: state.totalPrice + action.payLoad.basePrice
             }
         case REMOVE_FROM_CART:
             const tempData = state.product
@@ -34,13 +36,15 @@ const cartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 total: state.total - 1,
-                product: tempData
+                product: tempData,
+                totalPrice: state.totalPrice - action.payLoad.basePrice
             }
         case CLEAR_CART:
             return {
                 ...state,
                 product: [],
-                total: 0
+                total: 0,
+                totalPrice: 0,
             }
         default:
             return { ...state }

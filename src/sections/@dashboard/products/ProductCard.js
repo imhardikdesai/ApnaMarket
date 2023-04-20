@@ -43,7 +43,8 @@ export default function ShopProductCard({ item }) {
   }
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart({
-      ...item
+      ...item,
+      basePrice: price,
     }))
   }
   useEffect(() => {

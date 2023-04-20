@@ -1,6 +1,7 @@
 // component
 import SvgColor from '../../../components/svg-color';
-
+import { BsFillBasket2Fill } from 'react-icons/bs';
+import StoreIcon from '@mui/icons-material/Store';
 // ----------------------------------------------------------------------
 
 const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
@@ -19,9 +20,16 @@ const navConfig = [
     isPrivate: true
   },
   {
-    title: 'product',
+    title: 'store',
     path: '/dashboard/products',
-    icon: icon('ic_cart'),
+    icon: <StoreIcon />,
+    // icon: icon('ic_cart'),
+    isPrivate: false
+  },
+  {
+    title: 'cart',
+    path: '/dashboard/cart',
+    icon: <BsFillBasket2Fill size={20} />,
     isPrivate: false
   },
   // {

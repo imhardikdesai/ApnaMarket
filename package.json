@@ -31,6 +31,7 @@
     "redux-devtools-extension": "^2.13.9",
     "simplebar-react": "^3.2.4",
     "styled-components": "^5.3.9",
+    "twind": "^0.16.19",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
