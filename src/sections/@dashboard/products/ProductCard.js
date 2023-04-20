@@ -1,14 +1,17 @@
 import PropTypes from 'prop-types';
 // @mui
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Card, Link, Typography, Stack, Divider, Button, Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Label from '../../../components/label';
 import { ColorPreview } from '../../../components/color-utils';
-
-// ----------------------------------------------------------------------
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
+import { useDispatch, useSelector } from 'react-redux';
+import { addToCart, removeFromCart } from '../../../redux/actions/cartActions';
+import { useEffect, useState } from 'react';
 
 const StyledProductImg = styled('img')({
   top: 0,
@@ -21,11 +24,32 @@ const StyledProductImg = styled('img')({
 // ----------------------------------------------------------------------
 
 ShopProductCard.propTypes = {
-  product: PropTypes.object,
+  item: PropTypes.object,
 };
 
-export default function ShopProductCard({ product }) {
-  const { name, cover, price, colors, status, priceSale } = product;
+export default function ShopProductCard({ item }) {
+  const { id, name, cover, price, colors, status, priceSale } = item;
+  const product = useSelector(state => state.cart.product)
+  const total = useSelector(state => state.cart.total)
+  const current = product.find(data => data.id === id)
+  const [currentProduct, setCurrentProduct] = useState(current)
+  const dispatch = useDispatch()
+  const handleAddToCart = () => {
+    dispatch(addToCart({
+      ...item,
+      basePrice: price,
+      quantity: 1
+    }))
+  }
+  const handleRemoveFromCart = () => {
+    dispatch(removeFromCart({
+      ...item,
+      basePrice: price,
+    }))
+  }
+  useEffect(() => {
+    setCurrentProduct(current)
+  }, [total, current])
 
   return (
     <Card>
@@ -72,7 +96,22 @@ export default function ShopProductCard({ product }) {
             {fCurrency(price)}
           </Typography>
         </Stack>
+        <Divider />
+        <Stack display='flex'>
+          <div className='flex justify-between my-2 items-center'>
+            <Button onClick={handleAddToCart}>
+              <AddCircleOutlineOutlinedIcon />
+            </Button>
+            <Typography variant="subtitle1">
+              {currentProduct ? (currentProduct.quantity ? currentProduct.quantity : 0) : 0}
+            </Typography>
+            <Button disabled={(currentProduct ? (currentProduct.quantity ? (currentProduct.quantity === 0 ? true : false) : false) : true)} onClick={handleRemoveFromCart}>
+              <RemoveCircleOutlineOutlinedIcon />
+            </Button>
+          </div>
+          <Button onClick={handleAddToCart} variant="outlined">Add to Cart</Button>
+        </Stack>
       </Stack>
-    </Card>
+    </Card >
   );
 }

@@ -10,9 +10,9 @@ import { toast } from "react-hot-toast";
 export const handleGoogleSignIn = async (navigate, dispatch) => {
     signInWithPopup(auth, new GoogleAuthProvider())
         .then(async (result) => {
+            navigate('/');
             try {
                 if (result.user.metadata.creationTime === result.user.metadata.lastSignInTime) {
-                    navigate('/');
                     const userData = {
                         uid: result.user.uid,
                         displayName: result.user.displayName,
@@ -24,7 +24,6 @@ export const handleGoogleSignIn = async (navigate, dispatch) => {
                         toast.success('Login Successful');
                     })
                 } else {
-                    navigate('/')
                     toast.success(`Welcome Back ${result.user.displayName}`);
                     dispatch(updateChanges());
                 }
