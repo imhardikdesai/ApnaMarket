@@ -1,4 +1,4 @@
-import { ADD_TO_CART, REMOVE_FROM_CART } from "../actionTypes"
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from "../actionTypes"
 /**
  * This function adds an object to the cart and returns an action object with the type "ADD_TO_CART"
  * and the object as the payload.
@@ -28,5 +28,15 @@ export const removeFromCart = (obj) => {
     return {
         type: REMOVE_FROM_CART,
         payLoad: obj
+    }
+}
+/**
+ * This is a function that returns an object with a type property of CLEAR_CART.
+ * @returns The `clearCart` function is returning an object with a `type` property set to the value of
+ * the `CLEAR_CART` constant.
+ */
+export const clearCart = () => {
+    return {
+        type: CLEAR_CART
     }
 }

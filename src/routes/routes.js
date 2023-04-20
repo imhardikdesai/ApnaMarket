@@ -8,8 +8,11 @@ import Page404 from './../pages/Page404';
 import ProductsPage from './../pages/ProductsPage';
 import DashboardAppPage from '../pages/DashboardAppPage';
 import PrivateRoute from "./PrivateRoute";
+// import { useSelector } from "react-redux";
 
 export default function Router() {
+    // const isAdmin = false
+    // const isAdmin = useSelector(state => state.auth.isAdmin)
     const routes = useRoutes([
         {
             path: '/',
@@ -20,6 +23,7 @@ export default function Router() {
             element: <DashboardLayout />,
             children: [
                 { element: <Navigate to="/dashboard/app" />, index: true },
+                // { element: <Navigate to={`/dashboard/${isAdmin ? 'app' : 'products'}`} />, index: true },
                 { path: 'app', element: <PrivateRoute admin={false} element={<DashboardAppPage />} /> },
                 { path: 'user', element: <PrivateRoute admin={true} element={<UserPage />} /> },
                 { path: 'products', element: <PrivateRoute admin={false} element={<ProductsPage />} /> },

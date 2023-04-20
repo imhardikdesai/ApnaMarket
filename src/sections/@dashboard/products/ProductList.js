@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 // @mui
 import { Grid } from '@mui/material';
 import ShopProductCard from './ProductCard';
+import { shuffleArray } from '../../../utils/functions';
 
 // ----------------------------------------------------------------------
 
@@ -12,9 +13,9 @@ ProductList.propTypes = {
 export default function ProductList({ products, ...other }) {
   return (
     <Grid container spacing={3} {...other}>
-      {products.map((product) => (
+      {shuffleArray(products).map((product) => (
         <Grid key={product.id} item xs={12} sm={6} md={3}>
-          <ShopProductCard product={product} />
+          <ShopProductCard item={product} />
         </Grid>
       ))}
     </Grid>
