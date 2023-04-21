@@ -1,8 +1,9 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, db } from "../firebase/firebase-config";
+import { auth, database, db } from "../firebase/firebase-config";
 import { updateChanges } from "../redux/actions/authActions";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
+import { ref, set } from "firebase/database";
 
 
 
@@ -23,6 +24,10 @@ export const handleGoogleSignIn = async (navigate, dispatch) => {
                     setDoc(doc(db, "users", result.user.uid), userData).then(() => {
                         toast.success('Login Successful');
                     })
+                    set(ref(database, "users/" + result.user.uid), {
+                        uid: result.user.uid
+                    })
+
                 } else {
                     toast.success(`Welcome Back ${result.user.displayName}`);
                     dispatch(updateChanges());
