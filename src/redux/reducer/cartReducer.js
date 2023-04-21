@@ -15,7 +15,7 @@ const cartReducer = (state = initialState, action) => {
             } else if (state.product.some(item => item.id === action.payLoad.id)) {
                 const index = state.product.findIndex(item => item.id === action.payLoad.id)
                 currentData[index].quantity++;
-                currentData[index].price = action.payLoad.price + currentData[index].price
+                currentData[index].price = action.payLoad.basePrice + currentData[index].price
             } else {
                 currentData.push(action.payLoad)
             }

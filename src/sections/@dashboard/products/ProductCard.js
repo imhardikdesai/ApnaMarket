@@ -36,14 +36,17 @@ export default function ShopProductCard({ item }) {
   const dispatch = useDispatch()
   const handleAddToCart = () => {
     dispatch(addToCart({
-      ...item,
+      id,
+      name,
+      cover,
+      price,
       basePrice: price,
       quantity: 1
     }))
   }
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart({
-      ...item,
+      id,
       basePrice: price,
     }))
   }

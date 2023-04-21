@@ -7,25 +7,37 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from '../../../redux/actions/cartActions';
 
 const CartItem = ({ item }) => {
+
     const dispatch = useDispatch()
     const total = useSelector(state => state.cart.total)
     const [currentProduct, setCurrentProduct] = useState(item)
-    const { id, cover, name, price, quantity } = currentProduct
+    const { id, cover, basePrice, name, price, quantity } = item
+    // const { id, cover, basePrice, name, price, quantity } = currentProduct
     const handleRemoveFromCart = () => {
         dispatch(removeFromCart({
-            id
+            id,
+            basePrice,
         }))
     }
     const handleAddToCart = () => {
         dispatch(addToCart({
-            ...item,
-            basePrice: price,
+            id,
+            name,
+            cover,
+            price,
+            basePrice,
             quantity: 1
         }))
     }
     useEffect(() => {
+        if (item.quantity === 0) {
+            console.log('Shoud be removed')
+            console.log(currentProduct)
+        }
         setCurrentProduct(item)
-    }, [total, item])
+    }, [total, item, currentProduct])
+
+
     return (
         <>
             <Grid item xs={12} className="flex items-center border-b-2 pb-4">
@@ -59,6 +71,7 @@ const CartItem = ({ item }) => {
             </Grid>
         </>
     )
+
 }
 
 export default CartItem
