@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from "../actionTypes"
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, UPDATE_CART_FIREBASE } from "../actionTypes"
 
 const initialState = {
     totalPrice: 0,
@@ -28,6 +28,7 @@ const cartReducer = (state = initialState, action) => {
                 totalPrice: parseFloat(tempTotal.toFixed(2))
             }
         case REMOVE_FROM_CART:
+            console.log('action: remove from cart')
             const tempData = state.product
             let tempTotalPrice = state.totalPrice
             let index = tempData.findIndex(item => item.id === action.payLoad.id)
@@ -51,6 +52,13 @@ const cartReducer = (state = initialState, action) => {
                 product: [],
                 total: 0,
                 totalPrice: 0,
+            }
+        case UPDATE_CART_FIREBASE:
+            return {
+                ...state,
+                product: action.payLoad.product ? action.payLoad.product : [],
+                total: action.payLoad.total,
+                totalPrice: action.payLoad.totalPrice
             }
         default:
             return { ...state }

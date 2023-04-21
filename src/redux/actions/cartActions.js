@@ -1,4 +1,4 @@
-import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART } from "../actionTypes"
+import { ADD_TO_CART, CLEAR_CART, REMOVE_FROM_CART, UPDATE_CART_FIREBASE } from "../actionTypes"
 /**
  * This function adds an object to the cart and returns an action object with the type "ADD_TO_CART"
  * and the object as the payload.
@@ -38,5 +38,11 @@ export const removeFromCart = (obj) => {
 export const clearCart = () => {
     return {
         type: CLEAR_CART
+    }
+}
+export const updateCurrentCartFirebase = (obj) => {
+    return {
+        type: UPDATE_CART_FIREBASE,
+        payLoad: obj
     }
 }

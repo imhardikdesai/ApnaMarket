@@ -11,7 +11,9 @@ import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOu
 import RemoveCircleOutlineOutlinedIcon from '@mui/icons-material/RemoveCircleOutlineOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from '../../../redux/actions/cartActions';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { AddToCartFirebase } from '../../../utils/product';
+import { AuthContext } from '../../../context/AuthContext';
 
 const StyledProductImg = styled('img')({
   top: 0,
@@ -31,9 +33,11 @@ export default function ShopProductCard({ item }) {
   const { id, name, cover, price, colors, status, priceSale } = item;
   const product = useSelector(state => state.cart.product)
   const total = useSelector(state => state.cart.total)
+  const cart = useSelector(state => state.cart)
   const current = product.find(data => data.id === id)
   const [currentProduct, setCurrentProduct] = useState(current)
   const dispatch = useDispatch()
+  const { currentUser } = useContext(AuthContext)
   const handleAddToCart = () => {
     dispatch(addToCart({
       id,
@@ -43,6 +47,7 @@ export default function ShopProductCard({ item }) {
       basePrice: price,
       quantity: 1
     }))
+
   }
   const handleRemoveFromCart = () => {
     dispatch(removeFromCart({
@@ -53,7 +58,9 @@ export default function ShopProductCard({ item }) {
   useEffect(() => {
     setCurrentProduct(current)
   }, [total, current])
-
+  useEffect(() => {
+    AddToCartFirebase(cart, currentUser.uid)
+  }, [currentUser.uid, current, cart])
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>

@@ -7,7 +7,15 @@ import { ref, set } from "firebase/database";
 
 
 
-//Google Sign in Providers
+
+/**
+ * This function handles Google sign-in authentication and updates user data in the database.
+ * @param navigate - The `navigate` parameter is a function that is used to navigate to a different
+ * page or route in the application. It is likely provided by a routing library such as React Router.
+ * @param dispatch - The `dispatch` parameter is likely a function that is used to dispatch actions to
+ * the Redux store. It is commonly used in React applications with Redux to update the state of the
+ * application.
+ */
 export const handleGoogleSignIn = async (navigate, dispatch) => {
     signInWithPopup(auth, new GoogleAuthProvider())
         .then(async (result) => {

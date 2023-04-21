@@ -6,6 +6,8 @@ import { auth } from '../firebase/firebase-config';
 import { useDispatch, useSelector } from 'react-redux';
 import { GetCurrentUserDetails } from '../utils/utils';
 import { updateAdminRole } from '../redux/actions/authActions';
+import { GetAllProductDetailsFirebaseByUID } from '../utils/product';
+import { updateCurrentCartFirebase } from '../redux/actions/cartActions';
 
 export const AuthContext = createContext();
 
@@ -26,12 +28,14 @@ export function AuthProvider({ children }) {
                 GetCurrentUserDetails(user).then((res) => {
                     dispatch(updateAdminRole(res.isAdmin))
                 })
-            }
 
+                GetAllProductDetailsFirebaseByUID(user.uid).then((res) => {
+                    dispatch(updateCurrentCartFirebase(res))
+                })
+            }
             setLoading(false);
         });
     }, [status, dispatch]);
-
 
     return (
         <AuthContext.Provider value={{ currentUser, setCurrentUser, userDetails, setUserDetails }}>
