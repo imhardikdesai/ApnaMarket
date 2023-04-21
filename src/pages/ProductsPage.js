@@ -4,7 +4,6 @@ import { Container, Stack, Typography } from '@mui/material';
 // components
 import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
 // mock
-// import PRODUCTS from '../_mock/products';
 import Loader from '../components/common/Loader';
 import { GetAllProductDetails } from '../utils/product'
 // ----------------------------------------------------------------------
@@ -12,7 +11,6 @@ import { GetAllProductDetails } from '../utils/product'
 export default function ProductsPage() {
   const [openFilter, setOpenFilter] = useState(false);
   const [fetchedData, setFetchedData] = useState(null)
-
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -25,6 +23,7 @@ export default function ProductsPage() {
       setFetchedData(res)
     })
   }, []);
+
   return (
     <>
       <Container>

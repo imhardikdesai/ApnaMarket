@@ -1,31 +1,47 @@
 import { Grid, IconButton, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import { useDispatch, useSelector } from 'react-redux';
 import { addToCart, removeFromCart } from '../../../redux/actions/cartActions';
+import { AuthContext } from '../../../context/AuthContext';
+import { AddToCartFirebase } from '../../../utils/product';
 
 const CartItem = ({ item }) => {
+
     const dispatch = useDispatch()
     const total = useSelector(state => state.cart.total)
+    const cart = useSelector(state => state.cart)
+    const { currentUser } = useContext(AuthContext)
     const [currentProduct, setCurrentProduct] = useState(item)
-    const { id, cover, name, price, quantity } = currentProduct
+    // const { id, cover, basePrice, name, price, quantity } = item
+    const { id, cover, basePrice, name, price, quantity } = currentProduct
     const handleRemoveFromCart = () => {
         dispatch(removeFromCart({
-            id
+            id,
+            basePrice,
         }))
     }
     const handleAddToCart = () => {
         dispatch(addToCart({
-            ...item,
-            basePrice: price,
+            id,
+            name,
+            cover,
+            price,
+            basePrice,
             quantity: 1
         }))
     }
+
     useEffect(() => {
         setCurrentProduct(item)
-    }, [total, item])
+    }, [total, item, currentProduct])
+
+    useEffect(() => {
+        AddToCartFirebase(cart, currentUser.uid)
+    }, [currentUser.uid, cart, total])
+
     return (
         <>
             <Grid item xs={12} className="flex items-center border-b-2 pb-4">
@@ -59,6 +75,7 @@ const CartItem = ({ item }) => {
             </Grid>
         </>
     )
+
 }
 
 export default CartItem

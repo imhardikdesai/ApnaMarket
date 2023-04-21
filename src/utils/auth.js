@@ -1,12 +1,21 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth, db } from "../firebase/firebase-config";
+import { auth, database, db } from "../firebase/firebase-config";
 import { updateChanges } from "../redux/actions/authActions";
 import { doc, setDoc } from "firebase/firestore";
 import { toast } from "react-hot-toast";
+import { ref, set } from "firebase/database";
 
 
 
-//Google Sign in Providers
+
+/**
+ * This function handles Google sign-in authentication and updates user data in the database.
+ * @param navigate - The `navigate` parameter is a function that is used to navigate to a different
+ * page or route in the application. It is likely provided by a routing library such as React Router.
+ * @param dispatch - The `dispatch` parameter is likely a function that is used to dispatch actions to
+ * the Redux store. It is commonly used in React applications with Redux to update the state of the
+ * application.
+ */
 export const handleGoogleSignIn = async (navigate, dispatch) => {
     signInWithPopup(auth, new GoogleAuthProvider())
         .then(async (result) => {
@@ -23,6 +32,10 @@ export const handleGoogleSignIn = async (navigate, dispatch) => {
                     setDoc(doc(db, "users", result.user.uid), userData).then(() => {
                         toast.success('Login Successful');
                     })
+                    set(ref(database, "users/" + result.user.uid), {
+                        uid: result.user.uid
+                    })
+
                 } else {
                     toast.success(`Welcome Back ${result.user.displayName}`);
                     dispatch(updateChanges());
