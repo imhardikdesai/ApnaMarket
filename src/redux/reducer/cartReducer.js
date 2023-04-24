@@ -28,7 +28,6 @@ const cartReducer = (state = initialState, action) => {
                 totalPrice: parseFloat(tempTotal.toFixed(2))
             }
         case REMOVE_FROM_CART:
-            console.log('action: remove from cart')
             const tempData = state.product
             let tempTotalPrice = state.totalPrice
             let index = tempData.findIndex(item => item.id === action.payLoad.id)

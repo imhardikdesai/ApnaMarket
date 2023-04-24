@@ -27,10 +27,7 @@ export const GetAllProductDetails = async () => {
  * for "user ID".
  */
 export const AddToCartFirebase = async (cart, uid) => {
-    console.log('Firebase updated....')
-    await update(ref(database, "users/" + uid), {
-        cart
-    })
+    await update(ref(database, "users/" + uid), { cart })
 }
 
 

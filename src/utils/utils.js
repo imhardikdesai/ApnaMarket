@@ -1,5 +1,6 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase-config";
+import { GetAllProductDetails } from "./product";
 
 
 /**
@@ -56,3 +57,12 @@ export const GetCurrentUserDetails = async (currentUser) => {
 }
 
 
+export const GetNumbersForAdminDashboard = () => {
+    return new Promise((resolve) => {
+        GetAllUserList().then(user => {
+            GetAllProductDetails().then(product => {
+                resolve({ user: user.length, product: product.length })
+            })
+        })
+    });
+}
