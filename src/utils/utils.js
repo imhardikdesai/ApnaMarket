@@ -57,6 +57,12 @@ export const GetCurrentUserDetails = async (currentUser) => {
 }
 
 
+/**
+ * This function returns a promise that resolves with an object containing the number of users and
+ * products in the system.
+ * @returns A promise is being returned which resolves to an object containing the number of users and
+ * products in the system.
+ */
 export const GetNumbersForAdminDashboard = () => {
     return new Promise((resolve) => {
         GetAllUserList().then(user => {
