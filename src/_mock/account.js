@@ -8,6 +8,7 @@ const Account = () => {
     email: userDetails ? userDetails.email : 'loading...',
     photoURL: userDetails ? userDetails.photoURL : '/assets/images/avatars/avatar_default.jpg',
   };
+
   return (account)
 }
 

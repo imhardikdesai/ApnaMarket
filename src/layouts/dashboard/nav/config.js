@@ -1,6 +1,7 @@
 // component
 import SvgColor from '../../../components/svg-color';
 import { BsFillBasket2Fill } from 'react-icons/bs';
+import { SiAddthis } from 'react-icons/si';
 import StoreIcon from '@mui/icons-material/Store';
 // ----------------------------------------------------------------------
 
@@ -24,6 +25,12 @@ const navConfig = [
     path: '/dashboard/products',
     icon: <StoreIcon />,
     // icon: icon('ic_cart'),
+    isPrivate: false
+  },
+  {
+    title: 'Add Product',
+    path: '/dashboard/product-listing',
+    icon: <SiAddthis />,
     isPrivate: false
   },
   {

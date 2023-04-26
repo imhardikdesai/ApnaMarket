@@ -1,5 +1,6 @@
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db } from "../firebase/firebase-config";
+import { GetAllProductDetails } from "./product";
 
 
 /**
@@ -56,3 +57,18 @@ export const GetCurrentUserDetails = async (currentUser) => {
 }
 
 
+/**
+ * This function returns a promise that resolves with an object containing the number of users and
+ * products in the system.
+ * @returns A promise is being returned which resolves to an object containing the number of users and
+ * products in the system.
+ */
+export const GetNumbersForAdminDashboard = () => {
+    return new Promise((resolve) => {
+        GetAllUserList().then(user => {
+            GetAllProductDetails().then(product => {
+                resolve({ user: user.length, product: product.length })
+            })
+        })
+    });
+}

@@ -9,6 +9,7 @@ import ProductsPage from './../pages/ProductsPage';
 import DashboardAppPage from '../pages/DashboardAppPage';
 import PrivateRoute from "./PrivateRoute";
 import CartPage from "../pages/CartPage";
+import AddProduct from "../pages/AddProduct";
 // import { useSelector } from "react-redux";
 
 export default function Router() {
@@ -27,6 +28,7 @@ export default function Router() {
                 { path: 'app', element: <PrivateRoute admin={true} element={<DashboardAppPage />} /> },
                 { path: 'user', element: <PrivateRoute admin={true} element={<UserPage />} /> },
                 { path: 'products', element: <PrivateRoute admin={false} element={<ProductsPage />} /> },
+                { path: 'product-listing', element: <PrivateRoute admin={true} element={<AddProduct />} /> },
                 { path: 'cart', element: <PrivateRoute admin={false} element={<CartPage />} /> },
                 { path: 'profile', element: <PrivateRoute admin={false} element={<Page404 />} /> },
                 { path: 'setting', element: <PrivateRoute admin={false} element={<Page404 />} /> },
