@@ -2,7 +2,7 @@ import { onValue, push, ref, update } from "firebase/database";
 import { database, storage } from "../firebase/firebase-config";
 import { getDownloadURL, uploadBytes, ref as storageRef } from "firebase/storage";
 import { toast } from "react-hot-toast";
-
+import { PRODUCT_COLOR } from '../_mock/products';
 /**
  * This function retrieves all details of a specific product from a Firebase Realtime Database.
  * @returns The function `GetAllProductDetails` is returning a promise that resolves to the data of a
@@ -10,10 +10,14 @@ import { toast } from "react-hot-toast";
  */
 export const GetAllProductDetails = async () => {
     return new Promise((resolve) => {
-        const productRef = ref(database, 'products/-NTOPllghJneptlg0eWk');
-        onValue(productRef, (snapshot) => {
-            const data = snapshot.val();
-            resolve(data)
+        const productRef1 = ref(database, 'products/-NTOPllghJneptlg0eWk');
+        const productRef2 = ref(database, 'products/listing');
+        onValue(productRef1, (snapshot) => {
+            const data1 = snapshot.val();
+            onValue(productRef2, (snapshot) => {
+                const data2 = snapshot.val();
+                resolve(data1.concat(Object.values(data2)).reverse())
+            })
         });
     });
 }
@@ -67,21 +71,14 @@ export const GetAllProductDetailsFirebaseByUID = async (uid) => {
 
 
 export async function AddProductListing(values, image, currentUser, setProgress) {
-
-    // colors:[],
-    // cover:"https://apnamarket.netlify.app/assets/images/products/product_1.jpg"
-    // id:"773b1fae-fbd5-4dd4-b3f4-cdb60f39e172"
-    // name:"Nike Air Force 1 NDESTRUKT"
-    // price:76.86
-    // status:""
-
+    const temp = [...PRODUCT_COLOR]
     const {
         name,
         price,
         discount,
         status
     } = values
-    const productRef = ref(database, 'products/-NTOPllghJneptlg0eWk');
+    const productRef = ref(database, 'products/listing');
     const productId = new Date().getTime();
     try {
         if (image) {
@@ -91,21 +88,26 @@ export async function AddProductListing(values, image, currentUser, setProgress)
             setProgress(prev => prev + 20)
             const downloadUrl = await getDownloadURL(productImageRef);
             setProgress(prev => prev + 20)
+
+            const firstNumber = Math.floor(Math.random() * temp.length - 1); // generates random number between 0 and 10
+            const secondNumber = Math.floor(Math.random() * ((temp.length - 1) - firstNumber + 1)) + firstNumber; // generates random number between firstNumber and 10
             await push(productRef, {
-                colors: ["#00AB55", "#045ABB"],
+                // PRODUCT_COLOR.slice(0, 2))
+                // colors: ["#00AB55", "#045ABB"],
+                colors: temp.slice(firstNumber, secondNumber),
                 cover: downloadUrl,
                 id: productId,
                 name: name,
                 price: price,
                 status: status,
                 priceSale: discount
-            });
-            toast.success('Product Added Successfully !!!')
+            }).then(() => {
+                toast.success('Product Added Successfully !!!')
+            })
         }
     } catch (error) {
         console.error('Failed to update Profile', error);
         toast.error('Failed to Upload Product')
         throw error;
     }
-
 }

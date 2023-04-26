@@ -14,10 +14,16 @@ function AddProduct() {
 
 
   const initialValues = {
-    name: 'Brand New red Adidas Shoes',
-    price: '599',
-    discount: '12',
-    status: 'SALE',
+    name: '',
+    price: '',
+    discount: '',
+    status: '',
+  }
+  const handleFormReset = () => {
+    values.name = ''
+    values.price = ''
+    values.discount = ''
+    values.status = ''
   }
   const handleFormSubmit = (values) => {
     setShow(prev => !prev)
@@ -25,12 +31,15 @@ function AddProduct() {
     AddProductListing(values, image, currentUser, setProgress).then(() => {
       setProgress(prev => prev + 20)
       setShow(prev => !prev)
+      handleFormReset()
+      setImage(null)
     })
   };
+
   const { values, errors, handleBlur, touched, handleSubmit, handleChange } = useFormik({
     initialValues,
     onSubmit: handleFormSubmit,
-    validationSchema: ProductListing
+    validationSchema: ProductListing,
   })
 
   return (
@@ -51,7 +60,7 @@ function AddProduct() {
           </div>
         </div>
         <TextField
-          error={touched.name && errors.name}
+          error={Boolean(touched.name && errors.name)}
           helperText={touched.name && errors.name}
           className="w-full mb-4"
           label="Name"
@@ -62,7 +71,7 @@ function AddProduct() {
         />
         <TextField
           type='number'
-          error={touched.price && errors.price}
+          error={Boolean(touched.price && errors.price)}
           helperText={touched.price && errors.price}
           className="w-full mb-4"
           label="Price"
@@ -73,7 +82,7 @@ function AddProduct() {
         />
         <TextField
           type='number'
-          error={touched.discount && errors.discount}
+          error={Boolean(touched.discount && errors.discount)}
           helperText={touched.discount && errors.discount}
           className="w-full mb-4"
           label="Discount"
@@ -84,7 +93,7 @@ function AddProduct() {
         />
         <TextField
           type='text'
-          error={touched.status && errors.status}
+          error={Boolean(touched.status && errors.status)}
           helperText={touched.status && errors.status}
           className="w-full mb-4"
           label="Status"
