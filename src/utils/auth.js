@@ -27,7 +27,7 @@ export const handleGoogleSignIn = async (navigate, dispatch) => {
                         displayName: result.user.displayName,
                         email: result.user.email,
                         photoURL: result.user.photoURL,
-                        isAdmin: result.user.email === 'hp676913@gmail.com' ? true : false
+                        isAdmin: result.user.email === ('hp676913@gmail.com'||'vramani504@gmail.com') ? true : false
                     };
                     setDoc(doc(db, "users", result.user.uid), userData).then(() => {
                         toast.success('Login Successful');
