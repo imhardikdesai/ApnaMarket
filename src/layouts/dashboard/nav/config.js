@@ -31,7 +31,7 @@ const navConfig = [
     title: 'Add Product',
     path: '/dashboard/product-listing',
     icon: <SiAddthis />,
-    isPrivate: false
+    isPrivate: true
   },
   {
     title: 'cart',
